@@ -18,7 +18,7 @@ $ git clone https://github.com/triedel42/update_proto
 then add this to your `~/.zshrc`
 
 ```bash
-export PATH="$PATH:$HOME/update_proto
+export PATH="$PATH:$HOME/update_proto"
 ```
 
 ## Usage

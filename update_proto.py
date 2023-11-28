@@ -39,5 +39,5 @@ if __name__ == '__main__':
         assert header.endswith('.h')
         res = update_proto(header)
         msg = 'Updated ' + header
-        msg += ' (No $$proto_start$$ and $$proto_end$$)' if res else ''
+        msg += ' (No $$proto_start$$ and $$proto_end$$)' if not res else ''
         print(msg)
