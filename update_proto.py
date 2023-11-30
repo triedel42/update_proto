@@ -1,10 +1,18 @@
 #!/usr/bin/env python3
-from sys import argv
+import os
+import os.path
 import subprocess
 import getpass
 
+from sys import argv
 
-bin_cproto = '/Users/' + getpass.getuser() + '/homebrew/bin/cproto'
+
+if os.name.lower() == 'posix':
+	bin_cproto = '/usr/bin/cproto'
+else:
+	bin_cproto = '/Users/' + getpass.getuser() + '/homebrew/bin/cproto'
+
+assert os.path.exists(bin_cproto)
 
 
 def update_proto(header) -> bool:
