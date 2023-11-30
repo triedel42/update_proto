@@ -4,15 +4,16 @@ import os.path
 import subprocess
 import getpass
 
-from sys import argv
+from sys import argv, platform
 
 
-if os.name.lower() == 'posix':
-	bin_cproto = '/usr/bin/cproto'
-else:
+bin_cproto = None
+if platform.startswith('darwin'):
 	bin_cproto = '/Users/' + getpass.getuser() + '/homebrew/bin/cproto'
+else: #if platform.startswith('linux')
+	bin_cproto = '/usr/bin/cproto'
 
-assert os.path.exists(bin_cproto)
+assert os.path.exists(bin_cproto), 'cproto not found'
 
 
 def update_proto(header) -> bool:
@@ -35,16 +36,16 @@ def update_proto(header) -> bool:
             inside_proto = True
             did_something = True
 
-    assert not inside_proto
+    assert not inside_proto, 'Did not find both $$proto_start$$ and $$proto_end$$'
     open(header, 'w').write(''.join(lines_new))
     return did_something
 
 
 if __name__ == '__main__':
-    assert len(argv) >= 2
+    assert len(argv) >= 2, 'Not enough args'
 
     for header in argv[1:]:
-        assert header.endswith('.h')
+        assert header.endswith('.h'), 'Arg is not a .h file'
         res = update_proto(header)
         msg = 'Updated ' + header
         msg += ' (No $$proto_start$$ and $$proto_end$$)' if not res else ''
